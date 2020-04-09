@@ -43,13 +43,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_COLEMAK] = LAYOUT(
       KC_TAB,                  KC_Q,   KC_W,   KC_F,   KC_P,   KC_B,                                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,                  
       KC_ESC,                  KC_A,   KC_R,   KC_S,   KC_T,   KC_G,                                         KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-<<<<<<< HEAD
-      O_SFT,                   KC_Z,   KC_X,   KC_C,   KC_D,   KC_V, KC_CAPS,  KC_LEAD,   KC_NO,     KC_NO,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-                                              O_CTL,  O_ALT,  O_GUI, LOWER,    KC_SPC,    KC_LEFT,   RAISE,  KC_DOWN, KC_UP,   KC_RIGHT
-=======
-      OSM(MOD_LSFT),           KC_Z,   KC_X,   KC_C,   KC_D,   KC_V, KC_CAPS,  KC_NO,     KC_NO,     KC_ENT, KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-                       OSM(MOD_LCTL),OSM(MOD_LALT), OSM(MOD_LGUI),MO(_LOWER),  KC_SPC,    KC_LEFT,   MO(_RAISE),KC_DOWN, KC_UP,   KC_RIGHT
->>>>>>> 4ada87ed90a4029a97ea67d3dd7f6f5e32cf0b41
+      O_SFT,                   KC_Z,   KC_X,   KC_C,   KC_D,   KC_V, O_ALT,    KC_LEAD,   KC_NO,     KC_NO,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
+                                              O_CTL,  O_GUI,   LOWER,KC_SPC,   KC_CAPS,   KC_LEFT,   KC_DOWN,RAISE,   KC_UP,   KC_RIGHT
     ),
 
 /*
