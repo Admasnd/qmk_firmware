@@ -29,6 +29,7 @@
 
 // #define DYNAMIC_MACRO_ENABLE = yes
 #define LEADER_TIMEOUT 3000
+#define TAPPING_TOGGLE 2
 
 // If you are using an Elite C rev3 on the slave side, uncomment the lines below:
 #define SPLIT_USB_DETECT
