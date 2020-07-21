@@ -27,8 +27,8 @@ enum layers {
 #define O_CTL OSM(MOD_LCTL)
 #define O_ALT OSM(MOD_LALT)
 #define O_GUI OSM(MOD_LGUI)
-#define LOWER MO(_LOWER)
-#define RAISE MO(_RAISE)
+#define LOWER OSL(_LOWER)
+#define RAISE OSL(_RAISE)
 #define NAV TT(_NAV)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -36,20 +36,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_COLEMAK] = LAYOUT(
       KC_TAB,                  KC_Q,   KC_W,   KC_F,   KC_P,   KC_B,                                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,                  
       KC_ESC,                  KC_A,   KC_R,   KC_S,   KC_T,   KC_G,                                         KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-      O_SFT,                   KC_Z,   KC_X,   KC_C,   KC_D,   KC_V, O_ALT,    KC_NO,     KC_NO,     KC_NO,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
-                                              O_CTL,  O_GUI,   LOWER,KC_SPC,   KC_CAPS,   KC_LEAD,   NAV,    RAISE,   KC_NO,   KC_NO   
+      O_SFT,                   KC_Z,   KC_X,   KC_C,   KC_D,   KC_V, KC_NO,    KC_NO,     KC_NO,     KC_NO,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
+                                              O_CTL,  O_GUI,   O_ALT,KC_SPC,   KC_CAPS,   KC_LEAD,   LOWER,  RAISE,   NAV,     KC_NO   
     ),
 
     [_LOWER] = LAYOUT(
       KC_TILD, KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,                                     KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_DEL, 
-      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                       KC_NO,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
+      _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                       KC_NO,   KC_UNDS, KC_PLUS, KC_LCBR, KC_RCBR, KC_PIPE,
       _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   _______, _______, _______, _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
 
     [_RAISE] = LAYOUT(
       KC_GRV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                                        KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL, 
-      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                       KC_NO,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
+      _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,                                       KC_NO,   KC_MINS, KC_EQL,  KC_LBRC, KC_RBRC, KC_BSLS,
       _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   _______, _______, _______, _______, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
     ),
@@ -209,5 +209,38 @@ void matrix_scan_user(void) {
         unregister_code(KC_LGUI);
         unregister_code(KC_LCTL);
     }
+  }
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  bool send_esc = true;
+  switch (keycode) {
+    case KC_ESC:
+
+      if (record->event.pressed) {
+        if(get_mods() & MOD_MASK_SHIFT) {
+            del_mods(MOD_MASK_SHIFT);
+            send_esc = false;
+        }    
+        if(get_mods() & MOD_MASK_CTRL) {
+            del_mods(MOD_MASK_CTRL);
+            send_esc = false;
+        }    
+        if(get_mods() & MOD_MASK_ALT) {
+            del_mods(MOD_MASK_ALT);
+            send_esc = false;
+        }    
+        if(get_mods() & MOD_MASK_GUI) {
+            del_mods(MOD_MASK_GUI);
+            send_esc = false;
+        }    
+        if(!layer_state_is(_COLEMAK)) {
+            layer_clear();
+            send_esc = false;
+        }
+      }
+      return send_esc; // Let QMK send the enter press/release events
+    default:
+      return true; // Process all other keycodes normally
   }
 }
