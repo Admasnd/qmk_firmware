@@ -20,7 +20,8 @@ enum layers {
     _LOWER,
     _RAISE,
     _NAV,
-    _ADJUST
+    _ADJUST,
+    _ZOOM
 };
 
 #define O_SFT OSM(MOD_LSFT)
@@ -69,6 +70,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       _______, RGB_TOG, RGB_SAI, RGB_HUI, RGB_VAI, RGB_MOD,                                     _______, _______, _______, KC_F11,  KC_F12,  _______,
       _______, _______, RGB_SAD, RGB_HUD, RGB_VAD, RGB_RMOD,_______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
                                  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    ),
+    [_ZOOM] = LAYOUT(
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+      _______, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,                                   KC_NO, KC_NO, KC_NO, Z_IN,  Z_OUT, KC_NO,
+      KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+                                 KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
     ),
 // /*
 //  * Layer template
@@ -192,6 +199,9 @@ void matrix_scan_user(void) {
     leading = false;
     leader_end();
 
+    SEQ_ONE_KEY(KC_Z) {
+        layer_on(_ZOOM);
+    }
     SEQ_TWO_KEYS(KC_A, KC_M) {
       register_code(KC_AUDIO_MUTE);
     }
