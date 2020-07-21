@@ -39,7 +39,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_COLEMAK] = LAYOUT(
       KC_TAB,                  KC_Q,   KC_W,   KC_F,   KC_P,   KC_B,                                         KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, KC_BSPC,                  
       KC_ESC,                  KC_A,   KC_R,   KC_S,   KC_T,   KC_G,                                         KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    KC_QUOT,
-      O_SFT,                   KC_Z,   KC_X,   KC_C,   KC_D,   KC_V, O_ALT,    Z_IN,      Z_OUT,     KC_NO,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
+      O_SFT,                   KC_Z,   KC_X,   KC_C,   KC_D,   KC_V, O_ALT,    KC_NO,     KC_NO,     KC_NO,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, KC_ENT,
                                               O_CTL,  O_GUI,   LOWER,KC_SPC,   KC_CAPS,   KC_LEAD,   NAV,    RAISE,   KC_NO,     KC_NO   
     ),
 
@@ -200,7 +200,7 @@ void matrix_scan_user(void) {
     leader_end();
 
     SEQ_ONE_KEY(KC_Z) {
-        layer_on(_ZOOM);
+        layer_move(_ZOOM);
     }
     SEQ_TWO_KEYS(KC_A, KC_M) {
       register_code(KC_AUDIO_MUTE);
@@ -248,6 +248,10 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }    
         if(!layer_state_is(_COLEMAK)) {
             layer_clear();
+            send_esc = false;
+        }
+        if(host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+            register_code(KC_CAPS);
             send_esc = false;
         }
       }
