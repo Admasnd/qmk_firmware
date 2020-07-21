@@ -200,7 +200,18 @@ void matrix_scan_user(void) {
     leader_end();
 
     SEQ_ONE_KEY(KC_Z) {
-        layer_move(_ZOOM);
+      layer_move(_ZOOM);
+    }
+    SEQ_ONE_KEY(KC_L) {
+      register_code(KC_LCTL);
+      register_code(KC_LSFT);
+      register_code(KC_LALT);
+      register_code(KC_LGUI);
+      register_code(KC_L);
+      unregister_code(KC_LCTL);
+      unregister_code(KC_LSFT);
+      unregister_code(KC_LALT);
+      unregister_code(KC_LGUI);
     }
     SEQ_TWO_KEYS(KC_A, KC_M) {
       register_code(KC_AUDIO_MUTE);
@@ -213,13 +224,6 @@ void matrix_scan_user(void) {
     }
     SEQ_TWO_KEYS(KC_A, KC_F) {
       register_code(KC_MEDIA_NEXT_TRACK);
-    }
-    SEQ_TWO_KEYS(KC_M, KC_L) {
-        register_code(KC_LGUI);
-        register_code(KC_LCTL);
-        register_code(KC_Q);
-        unregister_code(KC_LGUI);
-        unregister_code(KC_LCTL);
     }
   }
 }
